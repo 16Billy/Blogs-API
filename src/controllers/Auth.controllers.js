@@ -4,13 +4,14 @@ export const signup = async (req,res) => {
     try {
         const {firstName, lastName, email, password} = req.body
 
-        const user = createUser(firstName, lastName,email, password)
-        const token = createToken(user.id)
-
-        res.status(200).send('User created').json({user,token})
+        const user = await createUser(firstName, lastName,email, password)
+        const token = createToken(user)
+        console.log(token)
+        res.status(200).json({user,token})
 
     } catch (e) {
-        res.status(400).json({'error': e})
+        console.log(e)
+        res.status(400).json({message: e})
     }
     
 }
@@ -18,8 +19,8 @@ export const signup = async (req,res) => {
 export const signin = async (req,res) => {
     try {
         const {email, password} = req.body
-        const user = verifyUser(email, password)
-        const token = createToken(user.id)
+        const user = await verifyUser(email, password)
+        const token = createToken(user)
 
         res.status(200).json({user,token})
 
