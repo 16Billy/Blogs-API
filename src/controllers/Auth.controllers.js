@@ -2,9 +2,9 @@ import { createUser, verifyUser, createToken } from "../services/Auth.service.js
 
 export const signup = async (req,res) => {
     try {
-        const {firstName, email, password} = req.body
+        const {firstName, lastName, email, password} = req.body
 
-        const user = createUser(firstName, email, password)
+        const user = createUser(firstName, lastName,email, password)
         const token = createToken(user.id)
 
         res.status(200).send('User created').json({user,token})
