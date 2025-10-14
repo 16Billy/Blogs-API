@@ -20,9 +20,11 @@ export const signin = async (req,res) => {
     try {
         const {email, password} = req.body
         const user = await verifyUser(email, password)
-        const token = createToken(user)
-
-        res.status(200).json({user,token})
+        if (user.result) {
+            res.status(200).json({token:user.message})
+        } else if (!user.result) {
+            res.status(401).json({error:user.message})
+        }
 
     } catch (e) {
         res.status(400).json({'error':e})

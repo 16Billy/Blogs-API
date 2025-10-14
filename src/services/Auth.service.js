@@ -15,7 +15,18 @@ export const createUser = async (firstName,lastName, email, password) => {
     return user.rows[0]
 }
 
-export const verifyUser = async () => {
+export const verifyUser = async (email,password) => {
+    const user = await db.query('SELECT * FROM users WHERE email = $1',[email])
+    if (user.rows.length < 1) {
+        return {result:false, message:'User does not exist'}
+    }
+    const match = await bcrypt.compare(password,user.rows[0].password)
+    if (match) {
+        const token = createToken(user.rows[0].id)
+        return {result:true, message:token}
+    } else {
+        return {result:false, message:'The entered password is incorrect.'}
+    }
 
 }
 
