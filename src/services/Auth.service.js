@@ -30,10 +30,9 @@ export const verifyUser = async (email,password) => {
 
 }
 
-export const createToken = (user) => {
+export const createToken = (id) => {
     
     const secret_key = process.env.SECRET_KEY
-    const token = jwt.sign({user:user.id,email:user.email}, secret_key, {expiresIn:'1d'})
-
+    const token = jwt.sign({id:id}, secret_key, {expiresIn:'1d'})
     return token
 }

@@ -5,9 +5,9 @@ export const signup = async (req,res) => {
         const {firstName, lastName, email, password} = req.body
 
         const user = await createUser(firstName, lastName,email, password)
-        const token = createToken(user)
+        const token = createToken(user.id)
         console.log(token)
-        res.status(200).json({user,token})
+        res.status(200).json({token:token})
 
     } catch (e) {
         console.log(e)
